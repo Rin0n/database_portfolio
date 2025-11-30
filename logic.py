@@ -123,7 +123,13 @@ WHERE project_name=? AND user_id=?
         sql = "DELETE FROM project_skills WHERE skill_id = ? AND project_id = ?" # Запиши сюда правильный SQL запрос
         self.__executemany(sql, [(skill_id, project_id)])
 
+    column_name = 'my_name'
+    def new_column(self, column_name):
+        conn = sqlite3.connect(self.database)
+        with conn:
+            conn.execute(f'ALTER TABLE projects ADD COLUMN "{column_name}" TEXT;')
 
 if __name__ == '__main__':
     manager = DB_Manager(DATABASE)
+    manager.new_column(manager.column_name)
     manager.create_tables()
